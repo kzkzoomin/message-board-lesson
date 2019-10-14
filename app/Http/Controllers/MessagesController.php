@@ -28,17 +28,13 @@ class MessagesController extends Controller
         ]);
     }
     
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
      
     // postでmessages/にアクセスされた場合の「新規登録処理」
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'content' => 'required|max:191',
+            ]);
         $message = new Message;
         $message->content = $request->content;
         $message->save();
@@ -46,12 +42,6 @@ class MessagesController extends Controller
         return redirect('/');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
      
    // getでmessages/idにアクセスされた場合の「取得表示処理」
     public function show($id)
@@ -63,12 +53,7 @@ class MessagesController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     // getでmessages/id/editにアクセスされた場合の「更新画面表示処理」
     public function edit($id)
     {
@@ -79,16 +64,14 @@ class MessagesController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     // putまたはpatchでmessages/idにアクセスされた場合の「更新処理」
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'content' => 'required|max:191',
+        ]);
+        
         $message = Message::find($id);
         $message->content = $request->content;
         $message->save();
@@ -96,12 +79,7 @@ class MessagesController extends Controller
         return redirect('/');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     // deleteでmessages/idにアクセスされた場合の「削除処理」
     public function destroy($id)
     {
